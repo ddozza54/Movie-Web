@@ -15,11 +15,14 @@ const Container = styled.div<ContainerProps>`
 interface CircleProps {
   bgColor: string;
   borderColor?: string;
+  text?: string;
 }
 
-function Circle({ bgColor, borderColor }: CircleProps) {
+function Circle({ bgColor, borderColor, text = "Default" }: CircleProps) {
   return (
-    <Container bgColor={bgColor} borderColor={borderColor ?? "gold"}></Container>
+    <Container bgColor={bgColor} borderColor={borderColor ?? bgColor}>
+      {text}
+    </Container>
   );
 }
 
