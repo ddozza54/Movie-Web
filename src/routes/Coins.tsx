@@ -90,7 +90,14 @@ function Coins() {
               <Img
                 src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
               />
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              <Link
+                to={{
+                  pathname: `/${coin.id}`,
+                  state: { name: coin.name },
+                }}
+              >
+                {coin.name} &rarr;
+              </Link>
             </Coin>
           ))}
         </CoinsList>
