@@ -23,6 +23,8 @@ const Coin = styled.li`
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
   a {
     padding: 20px;
     transition: color 0.2s ease-in-out;
@@ -37,6 +39,8 @@ const Coin = styled.li`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+  padding: 30px 0;
+  text-align: center;
 `;
 
 const Loader = styled.span`
@@ -54,6 +58,12 @@ interface CoinInterface {
   type: string;
 }
 
+const Img = styled.img`
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+`;
+
 function Coins() {
   const [coins, setCoins] = useState<CoinInterface[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,19 +75,22 @@ function Coins() {
       setLoading(false);
     })();
   }, []);
-
   return (
     <Container>
+      {/*API CORS 오류 시 Header => div 로 수정*/}
       <Header>
         <Title>코인</Title>
       </Header>
       {loading ? (
-        <Loader>Loadging...</Loader>
+        <Loader>Loading...</Loader>
       ) : (
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`/:${coin.id}`}>{coin.name} &rarr;</Link>
+              <Img
+                src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+              />
+              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
             </Coin>
           ))}
         </CoinsList>
