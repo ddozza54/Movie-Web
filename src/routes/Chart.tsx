@@ -4,7 +4,7 @@ import ApexChart from "react-apexcharts";
 
 interface IHistorical {
   time_open: string;
-  time_close: string;
+  time_close: number;
   open: number;
   high: number;
   low: number;
@@ -18,8 +18,12 @@ interface ChartProps {
 }
 
 function Chart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
-    fetchCoinHistory(coinId)
+  const { isLoading, data } = useQuery<IHistorical[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId),
+    {
+      refetchInterval: 10000,
+    }
   );
   return (
     <div>
@@ -57,7 +61,21 @@ function Chart({ coinId }: ChartProps) {
             xaxis: {
               axisBorder: { show: false },
               axisTicks: { show: false },
+              type: "datetime",
               labels: { show: false },
+              categories: data?.map((price) =>
+                new Date(price.time_close * 1000).toString()
+              ),
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["green"], stops: [0, 100] },
+            },
+            colors: ["yellow"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$ ${value.toFixed(2)}`,
+              },
             },
           }}
         />
