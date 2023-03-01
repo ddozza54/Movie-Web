@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Helmet from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 
@@ -21,9 +23,10 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   padding: 20px;
+  border: 3px solid grey;
   border-radius: 15px;
   margin-bottom: 10px;
   display: flex;
@@ -68,6 +71,9 @@ const Img = styled.img`
 `;
 
 function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   // const [coins, setCoins] = useState<ICoin[]>([]);
   // const [loading, setLoading] = useState(true);
@@ -86,6 +92,7 @@ function Coins() {
       {/*API CORS 오류 시 Header => div 로 수정*/}
       <Header>
         <Title>코인</Title>
+        <button onClick={() => toggleDarkAtom()}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
