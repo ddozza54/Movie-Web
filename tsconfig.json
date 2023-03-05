@@ -16,5 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/Price.tsx"]
+  "include": [
+    "src",
+    "coinApp/Price.tsx",
+    "coinApp/atoms.ts",
+    "coinApp/Router.tsx"
+, "coinApp/ToDoList.tsx"  ]
 }
